@@ -1,5 +1,6 @@
 package joe2k01.pizzaBackup;
 
+import java.awt.Component;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -10,14 +11,20 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.JCheckBox;
+import javax.swing.JFileChooser;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.IOException;
+
+import javax.swing.JTextField;
 
 public class BackUpFrame extends JFrame {
 
 	private JPanel contentPane;
+	private JTextField textField;
+	public String chosedSaveLoc;
 
 	/**
 	 * Launch the application.
@@ -38,9 +45,22 @@ public class BackUpFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	
+	public String whereToSave(Component button)
+	{
+		JFileChooser saveLoc = new JFileChooser();
+		saveLoc.setCurrentDirectory(new File("."));
+		saveLoc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		saveLoc.setDialogTitle("Select save location");
+		saveLoc.showOpenDialog(button);
+		chosedSaveLoc = saveLoc.getSelectedFile().getAbsolutePath() + "\\";
+		System.out.println(chosedSaveLoc);
+		return chosedSaveLoc;
+	}
+	
 	public BackUpFrame() {
 		setDefaultCloseOperation(HIDE_ON_CLOSE);;
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 480, 350);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		SpringLayout sl_contentPane = new SpringLayout();
@@ -84,9 +104,24 @@ public class BackUpFrame extends JFrame {
 		contentPane.add(btnOrSelectDirectly);
 		
 		JButton btnBackup = new JButton("Backup!");
-		sl_contentPane.putConstraint(SpringLayout.NORTH, btnBackup, 6, SpringLayout.SOUTH, chckbxRecovery);
-		sl_contentPane.putConstraint(SpringLayout.WEST, btnBackup, 176, SpringLayout.WEST, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.WEST, btnBackup, 191, SpringLayout.WEST, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.SOUTH, btnBackup, -31, SpringLayout.NORTH, btnOrSelectDirectly);
 		contentPane.add(btnBackup);
+		
+		textField = new JTextField();
+		sl_contentPane.putConstraint(SpringLayout.WEST, textField, 0, SpringLayout.WEST, btnBackup);
+		sl_contentPane.putConstraint(SpringLayout.SOUTH, textField, -24, SpringLayout.NORTH, btnBackup);
+		sl_contentPane.putConstraint(SpringLayout.EAST, textField, -15, SpringLayout.EAST, contentPane);
+		contentPane.add(textField);
+		textField.setColumns(10);
+		
+		JLabel lblCustom = new JLabel("Custom:");
+		sl_contentPane.putConstraint(SpringLayout.NORTH, lblCustom, 2, SpringLayout.NORTH, textField);
+		sl_contentPane.putConstraint(SpringLayout.WEST, lblCustom, 134, SpringLayout.WEST, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.SOUTH, lblCustom, -82, SpringLayout.NORTH, btnOrSelectDirectly);
+		sl_contentPane.putConstraint(SpringLayout.EAST, lblCustom, -6, SpringLayout.WEST, textField);
+		lblCustom.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		contentPane.add(lblCustom);
 		btnBackup.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
@@ -111,9 +146,10 @@ public class BackUpFrame extends JFrame {
 				
 				if(args != null)
 				{
+					whereToSave(btnBackup);
 					Runtime run = Runtime.getRuntime();
 					try {
-						Process exec = run.exec("adb backup --twrp" + args);
+						Process exec = run.exec("cmd.exe /c cd " + chosedSaveLoc + " && adb backup " + " --twrp" + args);
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -125,9 +161,10 @@ public class BackUpFrame extends JFrame {
 		btnOrSelectDirectly.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
+				whereToSave(btnOrSelectDirectly);
 				Runtime run = Runtime.getRuntime();
 				try {
-					Process exec = run.exec("adb backup --twrp");
+					Process exec = run.exec("cmd.exe /c cd " + chosedSaveLoc + " && adb backup " + " --twrp");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
