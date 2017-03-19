@@ -109,6 +109,15 @@ public class BackUpFrame extends JFrame {
 		contentPane.add(btnBackup);
 		
 		textField = new JTextField();
+		textField.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				chckbxSystem.setSelected(false);
+				chckbxData.setSelected(false);
+				chckbxBoot.setSelected(false);
+				chckbxRecovery.setSelected(false);
+			}
+		});
 		sl_contentPane.putConstraint(SpringLayout.WEST, textField, 0, SpringLayout.WEST, btnBackup);
 		sl_contentPane.putConstraint(SpringLayout.SOUTH, textField, -24, SpringLayout.NORTH, btnBackup);
 		sl_contentPane.putConstraint(SpringLayout.EAST, textField, -15, SpringLayout.EAST, contentPane);
@@ -126,6 +135,7 @@ public class BackUpFrame extends JFrame {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
 				String args = "";
+				String text = textField.getText();
 				
 				if(chckbxSystem.isSelected())
 				{
@@ -144,12 +154,25 @@ public class BackUpFrame extends JFrame {
 					args = args + " recovery";
 				}
 				
-				if(args != null)
+				if(args != "")
 				{
 					whereToSave(btnBackup);
 					Runtime run = Runtime.getRuntime();
 					try {
 						Process exec = run.exec("cmd.exe /c cd " + chosedSaveLoc + " && adb backup " + " --twrp" + args);
+						text = null;
+						args = "";
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				if(text != null)
+				{
+					whereToSave(btnBackup);
+					Runtime run = Runtime.getRuntime();
+					try {
+						Process exec = run.exec("cmd.exe /c cd " + chosedSaveLoc + " && adb backup " + " --twrp " + textField.getText());
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
