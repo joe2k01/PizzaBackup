@@ -4,17 +4,25 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+
 import java.awt.Canvas;
+import java.awt.Component;
+
 import javax.swing.UIManager;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
 
 public class Frame extends JFrame {
 
 	private JPanel contentPane;
+	public String choosenFileLoc;
 
 	/**
 	 * Launch the application.
@@ -32,6 +40,18 @@ public class Frame extends JFrame {
 		});
 	}
 
+	public String choosenBackUp(Component button)
+	{
+		JFileChooser choosenFile = new JFileChooser();
+		choosenFile.setCurrentDirectory(new File("."));
+		choosenFile.setDialogTitle("Select BackUp location");
+		choosenFile.showOpenDialog(button);
+		choosenFileLoc = choosenFile.getSelectedFile().getAbsolutePath();
+		System.out.println(choosenFileLoc);
+		return choosenFileLoc;
+	}
+	
+	
 	/**
 	 * Create the frame.
 	 */
@@ -58,6 +78,29 @@ public class Frame extends JFrame {
 		contentPane.add(mainBg, BorderLayout.CENTER);
 		
 		JButton btnRestoreABackup = new JButton("Restore a backup");
+		btnRestoreABackup.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				choosenBackUp(btn_newBackup);
+				if(choosenFileLoc.endsWith(".ab"))
+				{
+					Runtime run = Runtime.getRuntime();
+					try {
+						Process exec = run.exec("adb restore " + choosenFileLoc);
+						System.out.println("ADB backup found");
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, "Please, select a file that ends with the .ab extension");
+					System.out.println("Not an ADB backup");
+				}
+			}
+		});
 		contentPane.add(btnRestoreABackup, BorderLayout.NORTH);
 	}
 
