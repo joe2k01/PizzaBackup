@@ -56,6 +56,9 @@ public class Frame extends JFrame {
 		Canvas mainBg = new Canvas();
 		mainBg.setBackground(UIManager.getColor("Button.background"));
 		contentPane.add(mainBg, BorderLayout.CENTER);
+		
+		JButton btnRestoreABackup = new JButton("Restore a backup");
+		contentPane.add(btnRestoreABackup, BorderLayout.NORTH);
 	}
 
 }
