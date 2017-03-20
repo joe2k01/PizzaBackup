@@ -24,7 +24,7 @@ public class BackUpFrame extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
-	public String chosedSaveLoc;
+	public String choosenSaveLoc;
 
 	/**
 	 * Launch the application.
@@ -53,9 +53,17 @@ public class BackUpFrame extends JFrame {
 		saveLoc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		saveLoc.setDialogTitle("Select save location");
 		saveLoc.showOpenDialog(button);
-		chosedSaveLoc = saveLoc.getSelectedFile().getAbsolutePath() + "\\";
-		System.out.println(chosedSaveLoc);
-		return chosedSaveLoc;
+		choosenSaveLoc = saveLoc.getSelectedFile().getAbsolutePath();
+		if(System.getProperty("os.name").toLowerCase().indexOf("win") != -1)
+		{
+			choosenSaveLoc = choosenSaveLoc + "\\";
+		}
+		else
+		{
+			choosenSaveLoc = choosenSaveLoc + "/";
+		}
+		System.out.println(choosenSaveLoc);
+		return choosenSaveLoc;
 	}
 	
 	public BackUpFrame() {
@@ -159,7 +167,14 @@ public class BackUpFrame extends JFrame {
 					whereToSave(btnBackup);
 					Runtime run = Runtime.getRuntime();
 					try {
-						Process exec = run.exec("cmd.exe /c cd " + chosedSaveLoc + " && adb backup " + " --twrp" + args);
+						if(System.getProperty("os.name").toLowerCase().indexOf("win") != -1)
+						{
+							Process exec = run.exec("cmd.exe /c cd " + choosenSaveLoc + " && adb backup " + " --twrp" + args);
+						}
+						else
+						{
+							Process exec = run.exec("adb backup -f " + choosenSaveLoc + "backup.ab --twrp" + args);
+						}
 						text = null;
 						args = "";
 					} catch (IOException e) {
@@ -172,7 +187,14 @@ public class BackUpFrame extends JFrame {
 					whereToSave(btnBackup);
 					Runtime run = Runtime.getRuntime();
 					try {
-						Process exec = run.exec("cmd.exe /c cd " + chosedSaveLoc + " && adb backup " + " --twrp " + textField.getText());
+						if(System.getProperty("os.name").toLowerCase().indexOf("win") != -1)
+						{
+							Process exec = run.exec("cmd.exe /c cd " + choosenSaveLoc + " && adb backup " + " --twrp " + textField.getText());
+						}
+						else
+						{
+							Process exec = run.exec("adb backup -f " + choosenSaveLoc + "backup.ab --twrp" + textField.getText());
+						}
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -187,7 +209,14 @@ public class BackUpFrame extends JFrame {
 				whereToSave(btnOrSelectDirectly);
 				Runtime run = Runtime.getRuntime();
 				try {
-					Process exec = run.exec("cmd.exe /c cd " + chosedSaveLoc + " && adb backup " + " --twrp");
+					if(System.getProperty("os.name").toLowerCase().indexOf("win") != -1)
+					{
+						Process exec = run.exec("cmd.exe /c cd " + choosenSaveLoc + " && adb backup " + " --twrp");
+					}
+					else
+					{
+						Process exec = run.exec("adb backup -f " + choosenSaveLoc + "backup.ab --twrp");
+					}
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
