@@ -40,8 +40,7 @@ public class Frame extends JFrame {
 		});
 	}
 
-	public String choosenBackUp(Component button)
-	{
+	public String choosenBackUp(Component button) {
 		JFileChooser choosenFile = new JFileChooser();
 		choosenFile.setCurrentDirectory(new File("."));
 		choosenFile.setDialogTitle("Select BackUp location");
@@ -50,8 +49,7 @@ public class Frame extends JFrame {
 		System.out.println(choosenFileLoc);
 		return choosenFileLoc;
 	}
-	
-	
+
 	/**
 	 * Create the frame.
 	 */
@@ -63,7 +61,7 @@ public class Frame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-		
+
 		JButton btn_newBackup = new JButton("Create a new backup");
 		btn_newBackup.addMouseListener(new MouseAdapter() {
 			@Override
@@ -72,18 +70,17 @@ public class Frame extends JFrame {
 			}
 		});
 		contentPane.add(btn_newBackup, BorderLayout.SOUTH);
-		
+
 		Canvas mainBg = new Canvas();
 		mainBg.setBackground(UIManager.getColor("Button.background"));
 		contentPane.add(mainBg, BorderLayout.CENTER);
-		
+
 		JButton btnRestoreABackup = new JButton("Restore a backup");
 		btnRestoreABackup.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
 				choosenBackUp(btn_newBackup);
-				if(choosenFileLoc.endsWith(".ab"))
-				{
+				if (choosenFileLoc.endsWith(".ab")) {
 					Runtime run = Runtime.getRuntime();
 					try {
 						Process exec = run.exec("adb restore " + choosenFileLoc);
@@ -92,10 +89,8 @@ public class Frame extends JFrame {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					
-				}
-				else
-				{
+
+				} else {
 					JOptionPane.showMessageDialog(null, "Please, select a file that ends with the .ab extension");
 					System.out.println("Not an ADB backup");
 				}

@@ -45,36 +45,33 @@ public class BackUpFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	
-	public String whereToSave(Component button)
-	{
+
+	public String whereToSave(Component button) {
 		JFileChooser saveLoc = new JFileChooser();
 		saveLoc.setCurrentDirectory(new File("."));
 		saveLoc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		saveLoc.setDialogTitle("Select save location");
 		saveLoc.showOpenDialog(button);
 		choosenSaveLoc = saveLoc.getSelectedFile().getAbsolutePath();
-		if(System.getProperty("os.name").toLowerCase().indexOf("win") != -1)
-		{
+		if (System.getProperty("os.name").toLowerCase().indexOf("win") != -1) {
 			choosenSaveLoc = choosenSaveLoc + "\\";
-		}
-		else
-		{
+		} else {
 			choosenSaveLoc = choosenSaveLoc + "/";
 		}
 		System.out.println(choosenSaveLoc);
 		return choosenSaveLoc;
 	}
-	
+
 	public BackUpFrame() {
-		setDefaultCloseOperation(HIDE_ON_CLOSE);;
+		setDefaultCloseOperation(HIDE_ON_CLOSE);
+		;
 		setBounds(100, 100, 480, 350);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		SpringLayout sl_contentPane = new SpringLayout();
 		contentPane.setLayout(sl_contentPane);
 		setContentPane(contentPane);
-		
+
 		JLabel lblWhatDoYou = new JLabel("What do you want to backup?");
 		lblWhatDoYou.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		sl_contentPane.putConstraint(SpringLayout.NORTH, lblWhatDoYou, 10, SpringLayout.NORTH, contentPane);
@@ -82,40 +79,40 @@ public class BackUpFrame extends JFrame {
 		sl_contentPane.putConstraint(SpringLayout.EAST, lblWhatDoYou, -140, SpringLayout.EAST, contentPane);
 		lblWhatDoYou.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblWhatDoYou);
-		
+
 		JCheckBox chckbxSystem = new JCheckBox("System");
 		sl_contentPane.putConstraint(SpringLayout.NORTH, chckbxSystem, 6, SpringLayout.SOUTH, lblWhatDoYou);
 		sl_contentPane.putConstraint(SpringLayout.WEST, chckbxSystem, 181, SpringLayout.WEST, contentPane);
 		contentPane.add(chckbxSystem);
-		
+
 		JCheckBox chckbxData = new JCheckBox("Data");
 		sl_contentPane.putConstraint(SpringLayout.WEST, chckbxData, 0, SpringLayout.WEST, chckbxSystem);
 		sl_contentPane.putConstraint(SpringLayout.EAST, chckbxData, -5, SpringLayout.EAST, lblWhatDoYou);
 		contentPane.add(chckbxData);
-		
+
 		JCheckBox chckbxBoot = new JCheckBox("Boot");
 		sl_contentPane.putConstraint(SpringLayout.SOUTH, chckbxData, -6, SpringLayout.NORTH, chckbxBoot);
 		sl_contentPane.putConstraint(SpringLayout.NORTH, chckbxBoot, 88, SpringLayout.NORTH, contentPane);
 		sl_contentPane.putConstraint(SpringLayout.WEST, chckbxBoot, 0, SpringLayout.WEST, chckbxSystem);
 		sl_contentPane.putConstraint(SpringLayout.EAST, chckbxBoot, -182, SpringLayout.EAST, contentPane);
 		contentPane.add(chckbxBoot);
-		
+
 		JCheckBox chckbxRecovery = new JCheckBox("Recovery");
 		sl_contentPane.putConstraint(SpringLayout.NORTH, chckbxRecovery, 6, SpringLayout.SOUTH, chckbxBoot);
 		sl_contentPane.putConstraint(SpringLayout.WEST, chckbxRecovery, 0, SpringLayout.WEST, chckbxSystem);
 		contentPane.add(chckbxRecovery);
-		
+
 		JButton btnOrSelectDirectly = new JButton("Or select directly on phone");
 
 		sl_contentPane.putConstraint(SpringLayout.WEST, btnOrSelectDirectly, 131, SpringLayout.WEST, contentPane);
 		sl_contentPane.putConstraint(SpringLayout.SOUTH, btnOrSelectDirectly, -10, SpringLayout.SOUTH, contentPane);
 		contentPane.add(btnOrSelectDirectly);
-		
+
 		JButton btnBackup = new JButton("Backup!");
 		sl_contentPane.putConstraint(SpringLayout.WEST, btnBackup, 191, SpringLayout.WEST, contentPane);
 		sl_contentPane.putConstraint(SpringLayout.SOUTH, btnBackup, -31, SpringLayout.NORTH, btnOrSelectDirectly);
 		contentPane.add(btnBackup);
-		
+
 		textField = new JTextField();
 		textField.addMouseListener(new MouseAdapter() {
 			@Override
@@ -131,7 +128,7 @@ public class BackUpFrame extends JFrame {
 		sl_contentPane.putConstraint(SpringLayout.EAST, textField, -15, SpringLayout.EAST, contentPane);
 		contentPane.add(textField);
 		textField.setColumns(10);
-		
+
 		JLabel lblCustom = new JLabel("Custom:");
 		sl_contentPane.putConstraint(SpringLayout.NORTH, lblCustom, 2, SpringLayout.NORTH, textField);
 		sl_contentPane.putConstraint(SpringLayout.WEST, lblCustom, 134, SpringLayout.WEST, contentPane);
@@ -144,35 +141,28 @@ public class BackUpFrame extends JFrame {
 			public void mouseReleased(MouseEvent arg0) {
 				String args = "";
 				String text = textField.getText();
-				
-				if(chckbxSystem.isSelected())
-				{
+
+				if (chckbxSystem.isSelected()) {
 					args = args + " system";
 				}
-				if(chckbxData.isSelected())
-				{
+				if (chckbxData.isSelected()) {
 					args = args + " data";
 				}
-				if(chckbxBoot.isSelected())
-				{
+				if (chckbxBoot.isSelected()) {
 					args = args + " boot";
 				}
-				if(chckbxRecovery.isSelected())
-				{
+				if (chckbxRecovery.isSelected()) {
 					args = args + " recovery";
 				}
-				
-				if(args != "")
-				{
+
+				if (args != "") {
 					whereToSave(btnBackup);
 					Runtime run = Runtime.getRuntime();
 					try {
-						if(System.getProperty("os.name").toLowerCase().indexOf("win") != -1)
-						{
-							Process exec = run.exec("cmd.exe /c cd " + choosenSaveLoc + " && adb backup " + " --twrp" + args);
-						}
-						else
-						{
+						if (System.getProperty("os.name").toLowerCase().indexOf("win") != -1) {
+							Process exec = run
+									.exec("cmd.exe /c cd " + choosenSaveLoc + " && adb backup " + " --twrp" + args);
+						} else {
 							Process exec = run.exec("adb backup -f " + choosenSaveLoc + "backup.ab --twrp" + args);
 						}
 						text = null;
@@ -182,18 +172,16 @@ public class BackUpFrame extends JFrame {
 						e.printStackTrace();
 					}
 				}
-				if(text != null)
-				{
+				if (text != null) {
 					whereToSave(btnBackup);
 					Runtime run = Runtime.getRuntime();
 					try {
-						if(System.getProperty("os.name").toLowerCase().indexOf("win") != -1)
-						{
-							Process exec = run.exec("cmd.exe /c cd " + choosenSaveLoc + " && adb backup " + " --twrp " + textField.getText());
-						}
-						else
-						{
-							Process exec = run.exec("adb backup -f " + choosenSaveLoc + "backup.ab --twrp" + textField.getText());
+						if (System.getProperty("os.name").toLowerCase().indexOf("win") != -1) {
+							Process exec = run.exec("cmd.exe /c cd " + choosenSaveLoc + " && adb backup " + " --twrp "
+									+ textField.getText());
+						} else {
+							Process exec = run
+									.exec("adb backup -f " + choosenSaveLoc + "backup.ab --twrp" + textField.getText());
 						}
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
@@ -202,19 +190,16 @@ public class BackUpFrame extends JFrame {
 				}
 			}
 		});
-		
+
 		btnOrSelectDirectly.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
 				whereToSave(btnOrSelectDirectly);
 				Runtime run = Runtime.getRuntime();
 				try {
-					if(System.getProperty("os.name").toLowerCase().indexOf("win") != -1)
-					{
+					if (System.getProperty("os.name").toLowerCase().indexOf("win") != -1) {
 						Process exec = run.exec("cmd.exe /c cd " + choosenSaveLoc + " && adb backup " + " --twrp");
-					}
-					else
-					{
+					} else {
 						Process exec = run.exec("adb backup -f " + choosenSaveLoc + "backup.ab --twrp");
 					}
 				} catch (IOException e) {
@@ -223,6 +208,6 @@ public class BackUpFrame extends JFrame {
 				}
 			}
 		});
-		
+
 	}
 }
