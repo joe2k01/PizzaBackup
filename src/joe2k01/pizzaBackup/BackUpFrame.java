@@ -1,5 +1,6 @@
 package joe2k01.pizzaBackup;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.EventQueue;
 
@@ -74,6 +75,7 @@ public class BackUpFrame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		SpringLayout sl_contentPane = new SpringLayout();
 		contentPane.setLayout(sl_contentPane);
+		contentPane.setBackground(Frame.backColor);
 		setContentPane(contentPane);
 
 		JLabel lblWhatDoYou = new JLabel("What do you want to backup?");
@@ -85,16 +87,19 @@ public class BackUpFrame extends JFrame {
 		contentPane.add(lblWhatDoYou);
 
 		JCheckBox chckbxSystem = new JCheckBox("System");
+		chckbxSystem.setBackground(Frame.backColor);
 		sl_contentPane.putConstraint(SpringLayout.NORTH, chckbxSystem, 6, SpringLayout.SOUTH, lblWhatDoYou);
 		sl_contentPane.putConstraint(SpringLayout.WEST, chckbxSystem, 181, SpringLayout.WEST, contentPane);
 		contentPane.add(chckbxSystem);
 
 		JCheckBox chckbxData = new JCheckBox("Data");
+		chckbxData.setBackground(Frame.backColor);
 		sl_contentPane.putConstraint(SpringLayout.WEST, chckbxData, 0, SpringLayout.WEST, chckbxSystem);
 		sl_contentPane.putConstraint(SpringLayout.EAST, chckbxData, -5, SpringLayout.EAST, lblWhatDoYou);
 		contentPane.add(chckbxData);
 
 		JCheckBox chckbxBoot = new JCheckBox("Boot");
+		chckbxBoot.setBackground(Frame.backColor);
 		sl_contentPane.putConstraint(SpringLayout.SOUTH, chckbxData, -6, SpringLayout.NORTH, chckbxBoot);
 		sl_contentPane.putConstraint(SpringLayout.NORTH, chckbxBoot, 88, SpringLayout.NORTH, contentPane);
 		sl_contentPane.putConstraint(SpringLayout.WEST, chckbxBoot, 0, SpringLayout.WEST, chckbxSystem);
@@ -102,6 +107,7 @@ public class BackUpFrame extends JFrame {
 		contentPane.add(chckbxBoot);
 
 		JCheckBox chckbxRecovery = new JCheckBox("Recovery");
+		chckbxRecovery.setBackground(Frame.backColor);
 		sl_contentPane.putConstraint(SpringLayout.NORTH, chckbxRecovery, 6, SpringLayout.SOUTH, chckbxBoot);
 		sl_contentPane.putConstraint(SpringLayout.WEST, chckbxRecovery, 0, SpringLayout.WEST, chckbxSystem);
 		contentPane.add(chckbxRecovery);

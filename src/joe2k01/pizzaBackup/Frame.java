@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Component;
 
 import java.awt.event.MouseAdapter;
@@ -26,6 +27,7 @@ public class Frame extends JFrame {
 
 	private JPanel contentPane;
 	public String choosenFileLoc;
+	public static Color backColor = new Color(59, 164, 221);
 
 	/**
 	 * Launch the application.
@@ -65,6 +67,7 @@ public class Frame extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
+		contentPane.setBackground(backColor);
 		setContentPane(contentPane);
 
 		JButton btn_newBackup = new JButton("Create a new backup");
