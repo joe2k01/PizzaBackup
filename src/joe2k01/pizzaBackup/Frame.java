@@ -2,20 +2,24 @@ package joe2k01.pizzaBackup;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 
 import java.awt.Canvas;
 import java.awt.Component;
 
-import javax.swing.UIManager;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -23,7 +27,7 @@ public class Frame extends JFrame {
 
 	private JPanel contentPane;
 	public String choosenFileLoc;
-
+	public static Image icon;
 	/**
 	 * Launch the application.
 	 */
@@ -32,6 +36,8 @@ public class Frame extends JFrame {
 			public void run() {
 				try {
 					Frame frame = new Frame();
+					frame.setResizable(false);
+					frame.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Images/icon.png")));
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -56,7 +62,7 @@ public class Frame extends JFrame {
 	public Frame() {
 		setTitle("PizzaBackup by joe2k01");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 720, 480);
+		setBounds(100, 100, 720, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -71,9 +77,31 @@ public class Frame extends JFrame {
 		});
 		contentPane.add(btn_newBackup, BorderLayout.SOUTH);
 
-		Canvas mainBg = new Canvas();
-		mainBg.setBackground(UIManager.getColor("Button.background"));
-		contentPane.add(mainBg, BorderLayout.CENTER);
+		class ImageCanvas extends Canvas
+		{
+			private BufferedImage img;
+
+	        public ImageCanvas() {
+	            try {
+	                img = ImageIO.read(getClass().getResource("/Images/PizzaBackup.png"));
+	            } catch (IOException ex) {
+	                ex.printStackTrace();
+	            }
+	        }
+
+	        @Override
+	        public void paint(Graphics g) {
+	            super.paint(g);
+	            if (img != null) {
+	                int x = (getWidth() - img.getWidth()) / 2;
+	                int y = (getHeight() - img.getHeight()) / 2;
+	                g.drawImage(img, x, y, this);
+	            }
+	        }
+
+		}
+		
+		contentPane.add(new ImageCanvas(), BorderLayout.CENTER);
 
 		JButton btnRestoreABackup = new JButton("Restore a backup");
 		btnRestoreABackup.addMouseListener(new MouseAdapter() {

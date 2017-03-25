@@ -10,6 +10,8 @@ import javax.swing.SpringLayout;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.Toolkit;
+
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JButton;
@@ -34,6 +36,8 @@ public class BackUpFrame extends JFrame {
 			public void run() {
 				try {
 					BackUpFrame frame = new BackUpFrame();
+					frame.setResizable(false);
+					frame.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Images/icon.png")));
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
