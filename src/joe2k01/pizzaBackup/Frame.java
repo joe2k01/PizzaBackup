@@ -3,7 +3,6 @@ package joe2k01.pizzaBackup;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
@@ -27,7 +26,7 @@ public class Frame extends JFrame {
 
 	private JPanel contentPane;
 	public String choosenFileLoc;
-	public static Image icon;
+
 	/**
 	 * Launch the application.
 	 */
