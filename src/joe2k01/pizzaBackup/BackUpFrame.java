@@ -63,7 +63,6 @@ public class BackUpFrame extends JFrame {
 		} else {
 			choosenSaveLoc = choosenSaveLoc + "/";
 		}
-		System.out.println(choosenSaveLoc);
 		return choosenSaveLoc;
 	}
 

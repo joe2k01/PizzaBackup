@@ -53,7 +53,6 @@ public class Frame extends JFrame {
 		choosenFile.setDialogTitle("Select BackUp location");
 		choosenFile.showOpenDialog(button);
 		choosenFileLoc = choosenFile.getSelectedFile().getAbsolutePath();
-		System.out.println(choosenFileLoc);
 		return choosenFileLoc;
 	}
 
@@ -114,7 +113,6 @@ public class Frame extends JFrame {
 					Runtime run = Runtime.getRuntime();
 					try {
 						Process exec = run.exec("adb restore " + choosenFileLoc);
-						System.out.println("ADB backup found");
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -122,7 +120,6 @@ public class Frame extends JFrame {
 
 				} else {
 					JOptionPane.showMessageDialog(null, "Please, select a file that ends with the .ab extension");
-					System.out.println("Not an ADB backup");
 				}
 			}
 		});
